@@ -12,12 +12,43 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Action;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 public class TC004_CreateAccount extends ProjectSpecificMethodsSelBootCamp {
-@Test
-	public void createAccount() throws InterruptedException {
+
+	
+	
+	//login ,paassword,account ,fax,Website
+	
+	@DataProvider(name="Dynamic_Data")
+	public String[][] testdata() {
+		String[][] data=new String[2][5] ;
+				
+				data[0][0]="hari.radhakrishnan@qeagle.com";
+				data[0][1]="India$321";
+				data[0][2]="5655";
+				data[0][3]="test";
+				data[0][4]="high";
+						
+				data[1][0]="hari.radhakrishnan@qeagle.com";
+				data[1][1]="India$321";
+				data[1][2]="5455";
+				data[1][3]="tfdst";
+				data[1][4]="dff";
+				
+				/*
+				 * data[2][0]="hari.radhakrishnan@qeagle.com"; data[2][1]="India$321";
+				 * data[2][2]="5655"; data[2][3]="test"; data[2][4]="high";
+				 */
+				
+				return data;
+						
+						
+		
+	}
+		
 		
 		/*
 		 * WebDriverManager.chromedriver().setup(); ChromeOptions options=new
@@ -36,8 +67,15 @@ public class TC004_CreateAccount extends ProjectSpecificMethodsSelBootCamp {
 		 */
 		
 		//2. Click on toggle menu button from the left corner
-		
+		@Test(dataProvider="Dynamic_Data")
+		public void createAccount(String username,String password,String Account,String Fax,String Website) throws InterruptedException {
+		Thread.sleep(3000);
+			
+			 driver.findElement(By.id("username")).sendKeys(username);
+					  driver.findElement(By.id("password")).sendKeys(password); //click on login
+					 driver.findElement(By.id("Login")).click();
 		driver.findElement(By.xpath("//div[@class='slds-icon-waffle']")).click();
+		
 		
 		//3. Click view All and click Sales from App Launcher
 		
@@ -54,13 +92,18 @@ public class TC004_CreateAccount extends ProjectSpecificMethodsSelBootCamp {
 		driver.findElement(By.xpath("//div[text()='New']")).click();
 		
 		//6. Enter 'your name' as account name
-		String Expected="Monisha Unique";
-		driver.findElement(By.xpath("//input[@name=\"Name\"]")).sendKeys(Expected);
+		//String Expected="Monisha Unique";
+		driver.findElement(By.xpath("//input[@name='Name']")).sendKeys("Monisha Unique");
 		//js.executeScript("window.scrollBy(0,1000)");
+		driver.findElement(By.xpath("//input[@name='AccountNumber']")).sendKeys(Account);
+		driver.findElement(By.xpath("//input[@name='Fax']")).sendKeys(Fax);
+		driver.findElement(By.xpath("//input[@name='Website']")).sendKeys(Website);
+		
 		
 		//7. Select Ownership as Public   
 		WebElement Ownership = driver.findElement(By.xpath("(//button[@data-value='--None--'])[3]"));
 		driver.executeScript("arguments[0].click();",Ownership);
+		
 		
 		//WebElement ownership = driver.findElement(By.xpath("(//button[@class='slds-combobox__input slds-input_faux slds-combobox__input-value'])[3]"));
 		//int y=driver.findElement(By.xpath("(//button[@class='slds-combobox__input slds-input_faux slds-combobox__input-value'])[3]")).getLocation().getY();
@@ -77,12 +120,14 @@ public class TC004_CreateAccount extends ProjectSpecificMethodsSelBootCamp {
 		
 		
 	Thread.sleep(2000);
-		String Actual = driver.findElement(By.xpath("//div[@class='slds-theme--success slds-notify--toast slds-notify slds-notify--toast forceToastMessage']")).getText();
-		Assert.assertEquals(Actual,Expected);
-		System.out.println("Done");
+	/*
+	 * String Actual = driver.findElement(By.
+	 * xpath("//div[@class='slds-theme--success slds-notify--toast slds-notify slds-notify--toast forceToastMessage']"
+	 * )).getText(); Assert.assertEquals(Actual,Expected);
+	 * System.out.println("Done");
+	 */
 
 
-
 		
 		
 		
@@ -104,6 +149,6 @@ public class TC004_CreateAccount extends ProjectSpecificMethodsSelBootCamp {
 		
 		
 		
-		}
+}
 
 }
