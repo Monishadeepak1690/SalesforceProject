@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
@@ -18,25 +19,26 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class TC005_EditAccounts {
-	public static void main(String[] args) throws InterruptedException {
+public class TC005_EditAccounts extends ProjectSpecificMethodsSelBootCamp {
+	@Test
+	public void editAccount() throws InterruptedException {
 		
 
-	WebDriverManager.chromedriver().setup();
-	ChromeOptions options=new ChromeOptions();
-	options.addArguments("--disable-notifications");
-	ChromeDriver driver=new ChromeDriver(options);
-	JavascriptExecutor js = (JavascriptExecutor) driver;
-
-	//Launch Salesforce
-	driver.get("https://login.salesforce.com/");
-	driver.manage().window().maximize();
-	driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
-	
-	driver.findElement(By.id("username")).sendKeys("hari.radhakrishnan@qeagle.com");
-	driver.findElement(By.id("password")).sendKeys("India$321");
-	//click on login
-	driver.findElement(By.id("Login")).click();
+		/*
+		 * WebDriverManager.chromedriver().setup(); ChromeOptions options=new
+		 * ChromeOptions(); options.addArguments("--disable-notifications");
+		 * ChromeDriver driver=new ChromeDriver(options); JavascriptExecutor js =
+		 * (JavascriptExecutor) driver;
+		 * 
+		 * //Launch Salesforce driver.get("https://login.salesforce.com/");
+		 * driver.manage().window().maximize();
+		 * driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+		 * 
+		 * driver.findElement(By.id("username")).sendKeys(
+		 * "hari.radhakrishnan@qeagle.com");
+		 * driver.findElement(By.id("password")).sendKeys("India$321"); //click on login
+		 * driver.findElement(By.id("Login")).click();
+		 */
 	
 	//2. Click on toggle menu button from the left corner
 	

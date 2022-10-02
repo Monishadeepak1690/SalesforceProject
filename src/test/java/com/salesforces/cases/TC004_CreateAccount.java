@@ -11,28 +11,29 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Action;
-import org.testng.Assert; 	
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-public class TC004_CreateAccount {
-
-	public static void main(String[] args) {
+public class TC004_CreateAccount extends ProjectSpecificMethodsSelBootCamp {
+@Test
+	public void createAccount() throws InterruptedException {
 		
-		WebDriverManager.chromedriver().setup();
-		ChromeOptions options=new ChromeOptions();
-		options.addArguments("--disable-notifications");
-		ChromeDriver driver=new ChromeDriver(options);
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-
-		//Launch Salesforce
-		driver.get("https://login.salesforce.com/");
-		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
-		
-		driver.findElement(By.id("username")).sendKeys("hari.radhakrishnan@qeagle.com");
-		driver.findElement(By.id("password")).sendKeys("India$321");
-		//click on login
-		driver.findElement(By.id("Login")).click();
+		/*
+		 * WebDriverManager.chromedriver().setup(); ChromeOptions options=new
+		 * ChromeOptions(); options.addArguments("--disable-notifications");
+		 * ChromeDriver driver=new ChromeDriver(options); JavascriptExecutor js =
+		 * (JavascriptExecutor) driver;
+		 * 
+		 * //Launch Salesforce driver.get("https://login.salesforce.com/");
+		 * driver.manage().window().maximize();
+		 * driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
+		 * 
+		 * driver.findElement(By.id("username")).sendKeys(
+		 * "hari.radhakrishnan@qeagle.com");
+		 * driver.findElement(By.id("password")).sendKeys("India$321"); //click on login
+		 * driver.findElement(By.id("Login")).click();
+		 */
 		
 		//2. Click on toggle menu button from the left corner
 		
@@ -73,6 +74,9 @@ public class TC004_CreateAccount {
 		driver.findElement(By.xpath("//button[@class='slds-button slds-button_brand']")).click();
 		//Arvind Xpath :driver.findElement(By.xpath("(//button[contains(@class,'slds-combobox__input slds-input_faux')])[3]")).click(); driver.findElement(By.xpath("//span[@title='Public']")).click();
 		
+		
+		
+	Thread.sleep(2000);
 		String Actual = driver.findElement(By.xpath("//div[@class='slds-theme--success slds-notify--toast slds-notify slds-notify--toast forceToastMessage']")).getText();
 		Assert.assertEquals(Actual,Expected);
 		System.out.println("Done");
