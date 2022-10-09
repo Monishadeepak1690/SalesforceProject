@@ -12,8 +12,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Action;
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 public class TC004_CreateAccount extends ProjectSpecificMethodsSelBootCamp {
@@ -22,35 +25,8 @@ public class TC004_CreateAccount extends ProjectSpecificMethodsSelBootCamp {
 	
 	//login ,paassword,account ,fax,Website
 	
-	@DataProvider(name="Dynamic_Data")
-	public String[][] testdata() {
-		String[][] data=new String[2][5] ;
-				
-				data[0][0]="hari.radhakrishnan@qeagle.com";
-				data[0][1]="India$321";
-				data[0][2]="5655";
-				data[0][3]="test";
-				data[0][4]="high";
-						
-				data[1][0]="hari.radhakrishnan@qeagle.com";
-				data[1][1]="India$321";
-				data[1][2]="5455";
-				data[1][3]="tfdst";
-				data[1][4]="dff";
-				
+	
 				/*
-				 * data[2][0]="hari.radhakrishnan@qeagle.com"; data[2][1]="India$321";
-				 * data[2][2]="5655"; data[2][3]="test"; data[2][4]="high";
-				 */
-				
-				return data;
-						
-						
-		
-	}
-		
-		
-		/*
 		 * WebDriverManager.chromedriver().setup(); ChromeOptions options=new
 		 * ChromeOptions(); options.addArguments("--disable-notifications");
 		 * ChromeDriver driver=new ChromeDriver(options); JavascriptExecutor js =
@@ -67,6 +43,11 @@ public class TC004_CreateAccount extends ProjectSpecificMethodsSelBootCamp {
 		 */
 		
 		//2. Click on toggle menu button from the left corner
+		@BeforeTest
+		public void setData() {
+			 excelFileName = "TC001";
+		}
+		
 		@Test(dataProvider="Dynamic_Data")
 		public void createAccount(String username,String password,String Account,String Fax,String Website) throws InterruptedException {
 		Thread.sleep(3000);
