@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
@@ -21,26 +22,31 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class TC005_EditAccounts extends ProjectSpecificMethodsSelBootCamp {
 	@Test
-	public void editAccount() throws InterruptedException {
-		
+
+		@BeforeTest
+		public void setData() {
+			 excelFileName = "TC002_EditAccount";
+		}
 
 		/*
-		 * WebDriverManager.chromedriver().setup(); ChromeOptions options=new
-		 * ChromeOptions(); options.addArguments("--disable-notifications");
-		 * ChromeDriver driver=new ChromeDriver(options); JavascriptExecutor js =
-		 * (JavascriptExecutor) driver;
-		 * 
-		 * //Launch Salesforce driver.get("https://login.salesforce.com/");
-		 * driver.manage().window().maximize();
-		 * driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
-		 * 
-		 * driver.findElement(By.id("username")).sendKeys(
-		 * "hari.radhakrishnan@qeagle.com");
-		 * driver.findElement(By.id("password")).sendKeys("India$321"); //click on login
-		 * driver.findElement(By.id("Login")).click();
-		 */
+		  WebDriverManager.chromedriver().setup(); ChromeOptions options=new
+		  ChromeOptions(); options.addArguments("--disable-notifications");
+		  ChromeDriver driver=new ChromeDriver(options); JavascriptExecutor js =
+		  (JavascriptExecutor) driver;
+		  
+		  //Launch Salesforce driver.get("https://login.salesforce.com/");
+		  driver.manage().window().maximize();
+		  driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);*/
+		  
+		
+		 
 	
 	//2. Click on toggle menu button from the left corner
+	@Test(dataProvider="Dynamic_Data")
+	public void editAccount(String username,String password,String accountname,String phonenumber,String address ) throws InterruptedException {
+		  driver.findElement(By.id("username")).sendKeys(username);
+		  driver.findElement(By.id("password")).sendKeys(password); //click on login
+		  driver.findElement(By.id("Login")).click();
 	
 	driver.findElement(By.xpath("//div[@class='slds-icon-waffle']")).click();
 	
@@ -57,83 +63,68 @@ public class TC005_EditAccounts extends ProjectSpecificMethodsSelBootCamp {
 	
 	
 	//6.Search for the Account Using the unique account name created by you
-	driver.findElement(By.xpath("(//input[@type='search'])[2]")).sendKeys("Monisha Unique"+Keys.ENTER);
+	driver.findElement(By.xpath("(//input[@type='search'])[2]")).sendKeys( accountname +Keys.ENTER);
 	Thread.sleep(5000);
 	
 	//7. Click on the displayed Account Dropdown icon and select Edit
 	//driver.findElement(By.xpath("//table[contains(@class,'slds-table forceRecordLayout')]")).click();
 	
 	
-	
-	
-	driver.findElement(By.xpath("(//a[contains(@class,'slds-button slds-button--icon-x-small')])[1]")).click();
-	driver.findElement(By.xpath("//a[@title='Edit']")).click();
-
+	Thread.sleep(3000);
+	  driver.findElement(By.xpath("//tbody/tr[1]/td[6]//a")).click(); 
+	  //Click on Edit button 
+	  driver.findElement(By.xpath("//a[@title='Edit']")).click();
+	  Thread.sleep(2000); 
+	  //Edit Phone number 
+	  WebElement ele_phone=driver.findElement(By.xpath("//input[@name='Phone']"));
+	  ele_phone.clear(); 
+	  Thread.sleep(2000); 
+	  ele_phone.sendKeys(phonenumber); 
+	   	
 	//driver.findElement(By.xpath("//label[text()='Phone']/following-sibling::div/input")).sendKeys("9952049027");
 	//Thread.sleep(2000);
-
-
-	driver.findElement(By.xpath("(//div[@role='none']//button)[2]")).click();
-	WebElement type = driver.findElement(By.xpath("//span[@title='Technology Partner']"));
-	driver.executeScript("arguments[0].click();", type);
-
-	WebElement click_industry = driver.findElement(By.xpath("//label[text()='Industry']/following-sibling::div[1]//button"));
+	//Click and Edit Type 
+	  driver.findElement(By.xpath("//label[text()='Type']//parent::lightning-combobox//child::button")).click(); 
+	  //Select Type
+	  driver.findElement(By.xpath("//span[@title='Technology Partner']")).click();
+	//Click and Edit Type 
+	  WebElement click_industry = driver.findElement(By.xpath("//label[text()='Industry']/following-sibling::div[1]//button"));
 	driver.executeScript("arguments[0].click();", click_industry);
 	WebElement industry = driver.findElement(By.xpath("//span[@title='Healthcare']"));
 	driver.executeScript("arguments[0].click();", industry);
 
 	//"arguments[0].value='"+ value +"';"
-	String billingAddress = "101 Billing Address";
-	WebElement billingStreet = driver.findElement(By.xpath("//label[text()='Billing Street']/following-sibling::div/textarea"));
-	driver.executeScript("arguments[0].value='"+ billingAddress +"';", billingStreet);
-	String shippingAddress = "201 Shipping Address";
-	WebElement shippingStreet = driver.findElement(By.xpath("//label[text()='Shipping Street']/following-sibling::div/textarea"));
-	driver.executeScript("arguments[0].value='"+ shippingAddress +"';", shippingStreet);
-
-	Thread.sleep(3000);
-	WebElement customerPriority = driver.findElement(By.xpath("//label[text()='Customer Priority']/following-sibling::div[1]//button"));
-	driver.executeScript("arguments[0].click();", customerPriority);
-	WebElement customerPriorityValue = driver.findElement(By.xpath("//span[@title='Low']"));
-	driver.executeScript("arguments[0].click();", customerPriorityValue);
-
-	Thread.sleep(3000);
-	WebElement sla = driver.findElement(By.xpath("//label[text()='SLA']/following-sibling::div[1]//button"));
-	driver.executeScript("arguments[0].click();", sla);
-	WebElement slaValue = driver.findElement(By.xpath("//span[@title='Silver']"));
-	driver.executeScript("arguments[0].click();", slaValue);
-
-	Thread.sleep(3000);
-	WebElement active = driver.findElement(By.xpath("//label[text()='Active']/following-sibling::div[1]//button"));
-	driver.executeScript("arguments[0].click();", active);
-	WebElement activeValue = driver.findElement(By.xpath("(//span[text()='No'])[2]"));
-	driver.executeScript("arguments[0].click();", activeValue);
-
-	Thread.sleep(3000);
-	WebElement upsellOpty = driver.findElement(By.xpath("//label[text()='Upsell Opportunity']/following-sibling::div[1]//button"));
-	driver.executeScript("arguments[0].click();", active);
-	
-	driver.findElement(By.xpath("(//span[text()='No'])[1]")).click();
-	//driver.executeScript("arguments[0].click();", upsellOptyValue);
-	Thread.sleep(3000);
-
-	driver.findElement(By.xpath("//button[text()='Save']")).click();
-	//label[text()='Upsell Opportunity']/following-sibling::div[1]//button
-
-	driver.findElement(By.xpath("(//a[text()='Details'])[1]")).click();
-
-	String actualText = driver.findElement(By.xpath("//span[text()='Type']/following::span[1]//lightning-formatted-text")).getText();
-
-	Assert.assertEquals(actualText, "Technology Partner");
-
-	driver.close();
-
-	
-	
-	
-	
-	}
-	
-	
-	
-	
+	WebElement billing=driver.findElement(By.xpath("//label[text()='Billing Street']//following-sibling::div//textarea"));
+	  driver.executeScript("arguments[0].value='"+address+"';", billing); 
+	  //Enter Shipping address 
+	  driver.findElement(By.xpath("//label[text()='Shipping Street']//parent::lightning-textarea//child::textarea")).sendKeys("Shipping address"); 
+	  //Click on Customer Priority
+	  WebElement cust_priority=driver.findElement(By.xpath("//label[text()='Customer Priority']//parent::lightning-combobox//child::span")); 
+	  driver.executeScript("arguments[0].click();", cust_priority); 
+	  //Select Low 
+	  driver.findElement(By.xpath("//span[@title='Low']")).click(); 
+	  //Click on SLA 
+	  driver.findElement(By.xpath("//label[text()='SLA']//parent::lightning-combobox//descendant::button")).click(); 
+	  //Select Silver
+	  driver.findElement(By.xpath("//span[@title='Silver']")).click(); 
+	  //Click on Active 
+	  driver.findElement(By.xpath("//label[text()='Active']//parent::lightning-combobox//child::span")).click();
+	  //Select No 
+	  driver.findElement(By.xpath("//span[@title='No']")).click();
+	  //Click on Upsell Opportunity 
+	  driver.findElement(By.xpath("//label[text()='Upsell Opportunity']//parent::lightning-combobox//child::button")).click(); 
+	  //Select No
+	  driver.findElement(By.xpath("//span[@title='No']")).click(); //Click on Save
+	  driver.findElement(By.xpath("//button[text()='Save']")).click(); 
+	  Thread.sleep(3000); 
+		/*
+		 * String phone_num=driver.findElement(By.xpath(
+		 * "//tbody//tr[1]//td[4]//span[@dir='ltr']")).getText();
+		 * output=driver.findElement(By.xpath("//tbody//tr[1]//td[4]//span[@dir='ltr']")
+		 * ).getText(); System.out.println("In Edit Class: "+output);
+		 * validationInput=phone;
+		 * 
+		 * Assert.assertEquals(phone_num, phone);
+		 */
+}
 }

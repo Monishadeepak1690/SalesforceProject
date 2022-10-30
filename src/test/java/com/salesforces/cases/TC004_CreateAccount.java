@@ -50,25 +50,41 @@ public class TC004_CreateAccount extends ProjectSpecificMethodsSelBootCamp {
 		
 		@Test(dataProvider="Dynamic_Data")
 		public void createAccount(String username,String password,String Account,String Fax,String Website) throws InterruptedException {
-		Thread.sleep(3000);
+		Thread.sleep(000);
 			
-			 driver.findElement(By.id("username")).sendKeys(username);
-					  driver.findElement(By.id("password")).sendKeys(password); //click on login
-					 driver.findElement(By.id("Login")).click();
-		driver.findElement(By.xpath("//div[@class='slds-icon-waffle']")).click();
 		
+		  driver.findElement(By.id("username")).sendKeys(username);
+		  driver.findElement(By.id("password")).sendKeys(password); 
+		  
+		  
+			/*
+			 * //String title = driver.getTitle(); //System.out.println("Title is : " +
+			 * title); if (driver.getTitle().contains("Salesforce - Developer Edition")) {
+			 * driver.findElement(By.
+			 * xpath("(//a[text()='Switch to Lightning Experience'])[1]")).click(); }
+			 */
+		  driver.findElement(By.id("Login")).click();
+		  Thread.sleep(9000);
+			//2. Click on toggle menu button from the left corner
+		  
+		  WebElement element = driver.findElement(By.xpath("//div[@class='slds-icon-waffle']"));
+			JavascriptExecutor executor = (JavascriptExecutor)driver;
+			executor.executeScript("arguments[0].click();", element);
+			
 		
-		//3. Click view All and click Sales from App Launcher
-		
-		driver.findElement(By.xpath("//button[text()='View All']")).click();
-		driver.findElement(By.xpath("//input[@placeholder='Search apps or items...']")).sendKeys("Sales");
-		driver.findElement(By.xpath("(//mark[text()='Sales'])[3]")).click();
-		
-		
-		//4. Click on Accounts tab 
-		WebElement accounts = driver.findElement(By.xpath("//a[@title='Accounts']"));
-		driver.executeScript("arguments[0].click();",accounts);
-		
+			
+			
+			//2. Click on toggle menu button from the left corner
+			
+			//3. Click view All and click Sales from App Launcher
+			
+			driver.findElement(By.xpath("//button[text()='View All']")).click();
+			driver.findElement(By.xpath("//input[@placeholder='Search apps or items...']")).sendKeys("Sales");
+			driver.findElement(By.xpath("(//mark[text()='Sales'])[3]")).click();
+				Thread.sleep(5000);
+			//4. Click on Accounts tab 
+		driver.findElement(By.xpath("//a[@title='Accounts']")).click();
+			
 		//5. Click on New button
 		driver.findElement(By.xpath("//div[text()='New']")).click();
 		

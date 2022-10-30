@@ -8,70 +8,70 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+import org.openqa.selenium.JavascriptExecutor;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 	
-public class TC010_DeleteAccount {
-	public static void main(String[] args) throws InterruptedException {
-		// TODO Auto-generated method stub
-		String url = "https://login.salesforce.com/";
-		String username = "hari.radhakrishnan@qeagle.com";
-		String pwd = "India$321";
-		//System.setProperty("webdriver.chrome.drive", "./drivers/chromedriver");
-		WebDriverManager.chromedriver().setup();
-		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--disable-notifications");
-		ChromeDriver driver = new ChromeDriver(options);
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+public class TC010_DeleteAccount extends ProjectSpecificMethodsSelBootCamp {
+	@Test
 
-		driver.navigate().to(url);
-		driver.manage().window().maximize();
-		driver.findElement(By.id("username")).sendKeys(username);
-		driver.findElement(By.id("password")).sendKeys(pwd);
-		driver.findElement(By.id("Login")).click();
-		Thread.sleep(5000);
-		WebElement appLauncher = driver.findElement(By.xpath("//div[@role='navigation']/button/div"));
-		JavascriptExecutor executor = (JavascriptExecutor)driver;
-		executor.executeScript("arguments[0].click();", appLauncher);
+	@BeforeTest
+	public void setData() {
+		 excelFileName = "TC003_DeleteAccount";
+	}
 
+	
+
+//2. Click on toggle menu button from the left corner
+@Test(dataProvider="Dynamic_Data")
+public void editAccount(String username,String password,String input ) throws InterruptedException {
+	
+
+	
+	  driver.findElement(By.id("username")).sendKeys(username);
+	  driver.findElement(By.id("password")).sendKeys(password); //click on login
+	  driver.findElement(By.id("Login")).click();
+	  
+driver.findElement(By.xpath("//div[@class='slds-icon-waffle']")).click();
 		WebElement viewAll = driver.findElement(By.xpath("//button[text()='View All']"));
-		executor.executeScript("arguments[0].click();", viewAll);
+		driver.executeScript("arguments[0].click();", viewAll);
 
 		driver.findElement(By.xpath("//p[text()='Sales']")).click();
 
 		WebElement account = driver.findElement(By.xpath("//span[text()='Accounts']"));
-		executor.executeScript("arguments[0].click();", account);
+		driver.executeScript("arguments[0].click();", account);
 
 		Thread.sleep(3000);
 
-		driver.findElement(By.xpath("(//input[@type='search'])[2]")).sendKeys("Monisha", Keys.ENTER);
+		driver.findElement(By.xpath("(//input[@type='search'])[2]")).sendKeys(input, Keys.ENTER);
 
 		Thread.sleep(3000);
 
 		WebElement accountName = driver.findElement(By.xpath("(//a[text()='Monisha'])[1]"));
-		executor.executeScript("arguments[0].click();", accountName);
+		driver.executeScript("arguments[0].click();", accountName);
 
 		//driver.findElement(By.xpath("//button[text()='New Note']/ancestor::li/following-sibling::li//button")).click();
 		driver.findElement(By.xpath("(//tbody/tr/td[6]//a)[1]")).click();
 		//driver.findElement(By.xpath("//button[text()='New Note']/ancestor::li/following-sibling::li//div//span[text()='Delete']")).click();//a[@title='Delete'].click();
 		driver.findElement(By.xpath("//a[@title='Delete']")).click();
-
-		driver.findElement(By.xpath("//div[text()='Are you sure you want to delete this account?']/ancestor::div/following-sibling::div//button//span[text()='Delete']")).click();
-
+		//Confirm Delete
+		WebElement confirmation=driver.findElement(By.xpath("//h2[text()='Delete Account']/following::span[text()='Delete']"));
+		driver.executeScript("arguments[0].click();", confirmation);
+		Thread.sleep(4000);
+		//Final Validation
+		driver.navigate().refresh();
+		//Search and select account
 		Thread.sleep(3000);
-
-		driver.findElement(By.xpath("(//input[@type='search'])[2]/following::button[1]/lightning-primitive-icon")).click();
-
-		driver.findElement(By.xpath("(//input[@type='search'])[2]")).sendKeys("Monisha", Keys.ENTER);
-
-		String actualText = driver.findElement(By.xpath("//span[text()='No items to display.']")).getText();
-
-		Assert.assertEquals(actualText, "No items to display.");
-
+		driver.findElement(By.xpath("(//input[@type='search'])[2]")).clear();
+		driver.findElement(By.xpath("(//input[@type='search'])[2]")).sendKeys(input);
+		driver.findElement(By.xpath("(//input[@type='search'])[2]")).sendKeys(Keys.ENTER);
 		Thread.sleep(3000);
-
-		driver.close();
-
+		boolean display=driver.findElement(By.xpath("//span[text()='No items to display.']")).isDisplayed();
+		System.out.println("Display: "+display);
+		Assert.assertEquals(display, true);
+		System.out.println("Done !!");
 		}
 
 		
